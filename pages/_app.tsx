@@ -7,37 +7,38 @@ import { arbitrum, goerli, mainnet, optimism, polygon } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : []),
-  ],
-  [publicProvider()]
+    [
+        mainnet,
+        polygon,
+        optimism,
+        arbitrum,
+        goerli,
+        // ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : []),
+    ],
+    [publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'RainbowKit App',
-  projectId: 'YOUR_PROJECT_ID',
-  chains,
+    appName: 'RainbowKit App',
+    projectId: 'YOUR_PROJECT_ID',
+    chains,
 });
 
 const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient,
-  webSocketPublicClient,
+    autoConnect: true,
+    connectors,
+    publicClient,
+    webSocketPublicClient,
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>
-        <Component {...pageProps} />
-      </RainbowKitProvider>
-    </WagmiConfig>
-  );
+    return (
+        <WagmiConfig config={wagmiConfig}>
+            <RainbowKitProvider chains={chains}>
+                <Component {...pageProps} />
+            </RainbowKitProvider>
+        </WagmiConfig>
+    );
 }
 
 export default MyApp;
